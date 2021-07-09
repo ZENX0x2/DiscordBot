@@ -29,12 +29,17 @@ async def on_command_error(ctx, error):
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, user: discord.Member, *, reason=None):
+<<<<<<< HEAD
     if not reason:
         await user.kick()
         await ctx.send(f"**{user}** has been kicked for **no reason**.")
     else:
         await user.kick(reason=reason)
         await ctx.send(f"**{user}** has been kicked for **{reason}**.")
+=======
+  await user.kick(reason=reason)
+  await ctx.send(f"{user} have been kicked sucessfully")
+>>>>>>> b292c13aea7a43ce3d37e7d3678c743594b57f66
 
 
 @client.command()
@@ -45,13 +50,27 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(ban_members=True)
+<<<<<<< HEAD
+=======
+async def ban(ctx, user: discord.Member, *, reason=None):
+  await user.ban(reason=reason)
+  await ctx.send(f"{user} have been bannned sucessfully")
+
+@client.command()
+>>>>>>> b292c13aea7a43ce3d37e7d3678c743594b57f66
 async def unban(ctx, *, member):
-    banned_users = await ctx.guild.bans()
-    member_name, member_discriminator = member.split("#")
+  banned_users = await ctx.guild.bans()
+  member_name, member_discriminator = member.split('#')
 
-    for ban_entry in banned_users:
-        user = ban_entry.user
+  for ban_entry in banned_users:
+    user = ban_entry.user
+  
+  if (user.name, user.discriminator) == (member_name, member_discriminator):
+    await ctx.guild.unban(user)
+    await ctx.send(f"{user} have been unbanned sucessfully")
+    return
 
+<<<<<<< HEAD
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}')
@@ -66,4 +85,6 @@ async def say(ctx, *, message=None):
     else:
         await ctx.send(f"{message}")
 
+=======
+>>>>>>> b292c13aea7a43ce3d37e7d3678c743594b57f66
 client.run("ODYzMDE5MDU5NjAyNzg0MjY3.YOgzIQ.-_HM3-DIXHNa15v5eGDdFISu-fQ")
