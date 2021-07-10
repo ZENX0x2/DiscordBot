@@ -2,11 +2,16 @@ import os
 import random
 import time
 import string
+from prsaw import RandomStuff
 from discord import channel
 import discord.ext
 from discord.utils import get
 from discord.ext import commands, tasks
 from discord.ext.commands import has_permissions,  CheckFailure, check
+
+apikey = "ZxSV73BQIjLd"
+
+rs = RandomStuff(async_mode=True, api_key=apikey)
 
 client = discord.Client()
 
@@ -15,7 +20,8 @@ client = commands.Bot(command_prefix='-', case_insensitive=True)
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Porn"))
+    print("Bot Ready!")
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=" -Help | Nookavan Studios"))
 
 
 @client.event
@@ -24,6 +30,19 @@ async def on_command_error(ctx, error):
         await ctx.send('Please pass in all requirements :rolling_eyes:.')
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("You dont have all the requirements :angry:")
+
+
+@client.command()
+async def help(message):
+    embedVar = discord.Embed(
+        title="Help", description="Help for the commands", color=000000)
+    embedVar.add_field(
+        name="Ban", value="Bans members", inline=False)
+    embedVar.add_field(
+        name="Kick", value="Kicks members", inline=False)
+    embedVar.add_field(
+        name="too lazy", value="Im too lazy to add all of em now.", inline=False)
+    await message.channel.send(embed=embedVar)
 
 
 @client.command()
@@ -37,12 +56,6 @@ async def kick(ctx, user: discord.Member, *, reason=None):
         await ctx.send(f"**{user}** has been kicked for **{reason}**.")
         await user.kick(reason=reason)
         await ctx.send(f"{user} have been kicked sucessfully")
-
-
-@client.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, member: discord.Member, *, reason=None):
-    await member.ban(reason=reason)
 
 
 @client.command()
@@ -71,12 +84,21 @@ async def unban(ctx, *, member):
         return
 
 
-@client.command()
+@client.command(pass_context=True)
 @has_permissions(manage_messages=True)
 async def say(ctx, *, message=None):
     if "gay" in message:
         await ctx.send("You are gay!")
     else:
         await ctx.send(f"{message}")
+        await ctx.message.delete()
 
-client.run("ODYzMDE5MDU5NjAyNzg0MjY3.YOgzIQ.-_HM3-DIXHNa15v5eGDdFISu-fQ")
+
+@client.command()
+async def ai(ctx, *, message=None):
+    response = await rs.get_ai_response(message)
+    print(response)
+    await ctx.reply(response, mention_author=False)
+
+
+client.run("ODYzMDE5MDU5NjAyNzg0MjY3.YOgzIQ.LA2EjZMlihmvDTsFnkOyHwfCxWU")
