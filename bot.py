@@ -2,16 +2,11 @@ import os
 import random
 import time
 import string
-from prsaw import RandomStuff
 from discord import channel
 import discord.ext
 from discord.utils import get
 from discord.ext import commands, tasks
 from discord.ext.commands import has_permissions,  CheckFailure, check
-
-apikey = "ZxSV73BQIjLd"
-
-rs = RandomStuff(async_mode=True, api_key=apikey)
 
 client = discord.Client()
 
@@ -94,11 +89,5 @@ async def say(ctx, *, message=None):
         await ctx.message.delete()
 
 
-@client.command()
-async def ai(ctx, *, message=None):
-    response = await rs.get_ai_response(message)
-    print(response)
-    await ctx.reply(response, mention_author=False)
 
-
-client.run("ODYzMDE5MDU5NjAyNzg0MjY3.YOgzIQ.LA2EjZMlihmvDTsFnkOyHwfCxWU")
+client.run("Ur token")
